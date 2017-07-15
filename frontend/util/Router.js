@@ -1,9 +1,9 @@
 
 
 export default class Router {
-  constructor(routes, root) {
+  constructor(routes, container) {
     this.routes = routes;
-    this.root = root;
+    this.container = container;
     this.handleLinkClick = this.handleLinkClick.bind(this);
     document.addEventListener('click', this.handleLinkClick, true);
   }
@@ -25,11 +25,11 @@ export default class Router {
     if (this.currentComponent) {
       this.currentComponent.destroy();
     }
-    let component = this.routes[href];
+    let component = this.routes[href]();
     if (!component) {
-      component = this.routes[404];
+      component = this.routes[404]();
     }
     this.currentComponent = component;
-    this.currentComponent.render(this.root);
+    this.currentComponent.render(this.container);
   }
 }

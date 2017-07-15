@@ -1,3 +1,5 @@
+import './util/matches-polyfill';
+
 
 import Router from './util/Router';
 import routes from './routes';
@@ -7,6 +9,7 @@ export default class App {
   }
 
   start() {
-    this.router = new Router(routes);
+    const container = document.getElementById('container');
+    this.router = new Router(routes, container);
   }
 }
