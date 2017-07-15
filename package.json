@@ -28,8 +28,11 @@
     "webpack": "^3.2.0"
   },
   "dependencies": {
+    "body-parser": "^1.17.2",
     "connect": "^3.6.2",
     "connect-modrewrite": "^0.10.1",
+    "express": "^4.15.3",
+    "express-ws": "^3.0.0",
     "materialize-css": "^0.99.0",
     "node-static": "^0.7.9",
     "server-static": "^2.0.5",

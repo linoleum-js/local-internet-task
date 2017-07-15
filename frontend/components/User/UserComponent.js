@@ -1,5 +1,6 @@
 
 import AbstractComponent from '../AbstractComponent';
+import Api from '../../util/Api';
 import './user.css';
 
 export default class UserComponent extends AbstractComponent {
@@ -19,20 +20,14 @@ export default class UserComponent extends AbstractComponent {
     if (data.valid) {
       event.preventDefault();
       this.update(data.fields);
-      return;
+      Api.request('POST', '/api/user', data.fields);
     }
   }
 
   componentRendered() {
-    setTimeout(() => {
+    Api.request('GET', '/api/user').then((data) => {
       this.container.children[0].classList.remove('loading');
-      this.update({
-        firstName: 'some name',
-        lastName: 'some last name',
-        middleName: 'middle name',
-        balance: 24,
-        age: 22
-      })
-    }, 100);
+      this.update(data);
+    });
   }
 }
