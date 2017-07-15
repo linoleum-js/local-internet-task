@@ -1,13 +1,43 @@
-<div class="user">
+<div class="user loading">
   <form class="user__form">
-    <input type="text" data-bind="firstName" pattern="[a-z]{1,15}" placeholder="First name">
-    <input type="text" data-bind="lastName" placeholder="Last name">
-    <input type="text" data-bind="middleName" placeholder="Middle name">
+    <input type="text" data-bind="firstName" pattern=".{1,15}" placeholder="First name">
+    <input type="text" data-bind="lastName" pattern=".{1,15}"  placeholder="Last name">
+    <input type="text" data-bind="middleName" pattern=".{1,15}"  placeholder="Middle name">
     <input type="number" data-bind="age" min="18" max="50" placeholder="age">
     <button type="submit" class="submit-button btn">Save</button>
   </form>
 
-  <div class="user__data">
-    span
+  <div class="user__data card blue-grey lighten-4">
+    <span class="card-title">User data</span>
+    <table class="bordered striped">
+      <tr>
+        <td>First name</td>
+        <td><span data-bind="firstName"></span></td>
+      </tr>
+      <tr>
+        <td>Last name</td>
+        <td><span data-bind="lastName"></span></td>
+      </tr>
+      <tr>
+        <td>Middle name</td>
+        <td><span data-bind="middleName"></span></td>
+      </tr>
+      <tr>
+        <td>Balance</td>
+        <td><span data-bind="balance"></span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="preloader-wrapper big active preloader">
+    <div class="spinner-layer spinner-blue-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+      <div class="circle"></div>
+    </div><div class="circle-clipper right">
+      <div class="circle"></div>
+    </div>
+    </div>
   </div>
 </div>

@@ -21,6 +21,7 @@ export default class AbstractComponent {
     container.innerHTML = this.template;
     this.update(data);
     this.bindEvents();
+    this.componentRendered();
   }
 
   bindEvents() {
@@ -43,26 +44,29 @@ export default class AbstractComponent {
   update(data) {
     for (let name in data) {
       const value = data[name];
-      const node = this.container.querySelectorAll(`[data-bind="${name}"]`);
-      if (!node) { return; }
-      if (node.nodeName === 'INPUT') {
-        node.value = value;
-      } else {
-        node.innerHTML = value;
-      }
+      const nodes = this.container.querySelectorAll(`[data-bind="${name}"]`);
+      Array.prototype.forEach.call(nodes, (node) => {
+        if (node.nodeName === 'INPUT') {
+          node.value = value;
+        } else {
+          node.innerHTML = value;
+        }
+      })
     }
   }
 
   collectFormData(form) {
     const inputs = form.querySelectorAll('[data-bind]');
-    const result = { data: {}, valid: true };
+    const result = { fields: {}, valid: true };
     Array.prototype.forEach.call(inputs, (input) => {
       const name = input.getAttribute('data-bind');
       const value = input.value;
-      result.data[name] = value;
+      result.fields[name] = value;
       result.valid = result.valid && input.validity.valid;
     });
 
     return result;
   }
+
+  componentRendered() {}
 }

@@ -18,7 +18,21 @@ export default class UserComponent extends AbstractComponent {
     const data = this.collectFormData(form);
     if (data.valid) {
       event.preventDefault();
+      this.update(data.fields);
       return;
     }
+  }
+
+  componentRendered() {
+    setTimeout(() => {
+      this.container.children[0].classList.remove('loading');
+      this.update({
+        firstName: 'some name',
+        lastName: 'some last name',
+        middleName: 'middle name',
+        balance: 24,
+        age: 22
+      })
+    }, 100);
   }
 }
