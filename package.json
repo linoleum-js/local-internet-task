@@ -29,7 +29,9 @@
   "dependencies": {
     "connect": "^3.6.2",
     "connect-modrewrite": "^0.10.1",
+    "materialize-css": "^0.99.0",
     "node-static": "^0.7.9",
-    "server-static": "^2.0.5"
+    "server-static": "^2.0.5",
+    "url-loader": "^0.5.9"
   }
 }

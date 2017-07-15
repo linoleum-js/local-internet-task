@@ -6,6 +6,8 @@ export default class Router {
     this.container = container;
     this.handleLinkClick = this.handleLinkClick.bind(this);
     document.addEventListener('click', this.handleLinkClick, true);
+    const href = location.pathname;
+    this.goToRoute(href || '/');
   }
 
   handleLinkClick(event) {

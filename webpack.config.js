@@ -16,8 +16,9 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.js$/, loader: 'babel-loader' },
-      { test: /\.css$/, loader: 'style-loader!css-loader?sourceMap&modules&importLoaders=1&localIdentName=[local]!postcss-loader' },
-      { test: /\.html$/, loader: 'text-loader' }
+      { test: /\.css$/, loader: 'style-loader!css-loader' },
+      { test: /\.html$/, loader: 'text-loader' },
+      { test: /\.[woff|woff2]/, loader: 'url-loader' }
     ]
   }
 };

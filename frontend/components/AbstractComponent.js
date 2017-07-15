@@ -16,9 +16,14 @@ export default class AbstractComponent {
     this._addedEvents = [];
   }
 
-  render(container) {
+  render(container, data = {}) {
     this.container = container;
     container.innerHTML = this.template;
+    this.update(data);
+    this.bindEvents();
+  }
+
+  bindEvents() {
     for (let key in this.events) {
       const parts = key.split(' ', 2);
       const eventName = parts[0];
@@ -30,8 +35,34 @@ export default class AbstractComponent {
           callback(event);
         }
       };
-      container.addEventListener(eventName, callbackWrapper, true);
+      this.container.addEventListener(eventName, callbackWrapper, true);
       this._addedEvents.push({ eventName, callbackWrapper });
     }
+  }
+
+  update(data) {
+    for (let name in data) {
+      const value = data[name];
+      const node = this.container.querySelectorAll(`[data-bind="${name}"]`);
+      if (!node) { return; }
+      if (node.nodeName === 'INPUT') {
+        node.value = value;
+      } else {
+        node.innerHTML = value;
+      }
+    }
+  }
+
+  collectFormData(form) {
+    const inputs = form.querySelectorAll('[data-bind]');
+    const result = { data: {}, valid: true };
+    Array.prototype.forEach.call(inputs, (input) => {
+      const name = input.getAttribute('data-bind');
+      const value = input.value;
+      result.data[name] = value;
+      result.valid = result.valid && input.validity.valid;
+    });
+
+    return result;
   }
 }
