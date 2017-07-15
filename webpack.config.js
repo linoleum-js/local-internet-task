@@ -5,7 +5,7 @@ module.exports = {
   context: __dirname,
   entry: './frontend/index.js',
   output: {
-    path: path.join(__dirname, 'server'),
+    path: path.join(__dirname, 'server', 'public'),
     filename: 'script.js'
   },
 
