@@ -1,15 +1,24 @@
-
-
+/**
+ * Class that handles url change and creates corresponding component
+ * (destroying previous one)
+ */
 export default class Router {
   constructor(routes, container) {
     this.routes = routes;
     this.container = container;
     this.handleLinkClick = this.handleLinkClick.bind(this);
     document.addEventListener('click', this.handleLinkClick, true);
+    // go to current route, before any actions
     const href = location.pathname;
     this.goToRoute(href || '/');
   }
 
+  /**
+   * On link click, prevent default action and perform route change
+   * manually with instantiating corresponding component
+   *
+   * @param event
+   */
   handleLinkClick(event) {
     const target = event.target;
     const pushUrl = (href) => {
@@ -23,6 +32,11 @@ export default class Router {
     }
   }
 
+  /**
+   * Destroy previous component and create a new one
+   *
+   * @param href
+   */
   goToRoute(href) {
     if (this.currentComponent) {
       this.currentComponent.destroy();

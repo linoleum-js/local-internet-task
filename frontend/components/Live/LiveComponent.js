@@ -9,9 +9,13 @@ export default class LiveComponent extends AbstractComponent {
   }
 
   componentRendered() {
-    Api.request('GET', '/api/user').then((data) => {
+    this.connection = Api.socketConnect('/api/user', (data) => {
       this.container.children[0].classList.remove('loading');
       this.update(data);
     });
+  }
+
+  componentDestroyed() {
+    this.connection.close();
   }
 }

@@ -13,6 +13,6 @@ export default {
     return new LiveComponent();
   },
   '404': () => {
-
+    return new HomeComponent();
   }
 };

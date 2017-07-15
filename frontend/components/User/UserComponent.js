@@ -26,6 +26,7 @@ export default class UserComponent extends AbstractComponent {
 
   componentRendered() {
     Api.request('GET', '/api/user').then((data) => {
+      // hide spinner, show content
       this.container.children[0].classList.remove('loading');
       this.update(data);
     });

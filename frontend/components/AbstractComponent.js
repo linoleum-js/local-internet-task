@@ -1,4 +1,11 @@
 /**
+ * Base class for all the components. Implements render and destroy methods,
+ * that should not be overwritten.
+ *
+ * Allows bind events in Backbone style.
+ *
+ * Performs template compilation and update
+ *
  * @abstract
  */
 export default class AbstractComponent {
@@ -8,14 +15,25 @@ export default class AbstractComponent {
     this._addedEvents = [];
   }
 
+  /**
+   * Detach all the events, call hook.
+   */
   destroy() {
     this._addedEvents.forEach((item) => {
       this.container.removeEventListener(item.eventName, item.callbackWrapper);
     });
     this.container.innerHTML = '';
     this._addedEvents = [];
+    this.componentDestroyed();
   }
 
+  /**
+   * Appends compiled template to the container, sets values of data-bind elements,
+   * init an events.
+   *
+   * @param container
+   * @param data
+   */
   render(container, data = {}) {
     this.container = container;
     container.innerHTML = this.template;
@@ -41,6 +59,11 @@ export default class AbstractComponent {
     }
   }
 
+  /**
+   * Updates values of data-bind elements.
+   *
+   * @param data
+   */
   update(data) {
     for (let name in data) {
       const value = data[name];
@@ -55,6 +78,12 @@ export default class AbstractComponent {
     }
   }
 
+  /**
+   * Utility method. Collects field data and validity state of the given form
+   *
+   * @param form
+   * @returns {{fields: {}, valid: boolean}}
+   */
   collectFormData(form) {
     const inputs = form.querySelectorAll('[data-bind]');
     const result = { fields: {}, valid: true };
@@ -68,5 +97,17 @@ export default class AbstractComponent {
     return result;
   }
 
+  /**
+   * hook called after component rendered
+   *
+   * @abstract
+   */
   componentRendered() {}
+
+  /**
+   * hook called after component destroyed
+   *
+   * @abstract
+   */
+  componentDestroyed() {}
 }

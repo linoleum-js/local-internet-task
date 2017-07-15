@@ -9,7 +9,16 @@ let data = {
 var express = require('express'),
   app = express(),
   port = process.env.PORT || 3000;
+var EventEmitter = require('event-emitter');
+var expressWs = require('express-ws')(app);
 var bodyParser = require('body-parser');
+const ee = new EventEmitter();
+
+
+setInterval(() => {
+  data.balance = Math.floor(Math.random() * 10000);
+  ee.emit('data:change', data);
+}, 1000);
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -29,7 +38,21 @@ app.get('/api/user', (request, response) => {
 
 app.post('/api/user', (request, response) => {
   data = JSON.parse(request.body.data);
+  ee.emit('data:change');
   response.send({ status: 200 });
+});
+
+app.ws('/api/user', function(ws, req) {
+  const send = () => {
+    ws.send(JSON.stringify(data));
+  };
+  ws.on('message', function() {
+    ee.on('data:change', send);
+    ws.send(JSON.stringify(data));
+  });
+  ws.on('close', () => {
+    ee.off('data:change', send);
+  });
 });
 
 app.listen(port);

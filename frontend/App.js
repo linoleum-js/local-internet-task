@@ -1,5 +1,6 @@
 import './util/matches-polyfill';
 import 'materialize-css/dist/css/materialize.css';
+import 'toastr/build/toastr.css';
 
 
 import Router from './util/Router';
